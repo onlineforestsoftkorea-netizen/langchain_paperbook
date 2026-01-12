@@ -44,10 +44,9 @@ for i in range(len(docs)):
 # 5. 검색 타입을 'mmr'로 변경하여 새로운 retriever를 생성합니다.
 mmr_retriever = retrieved_vectorstore.as_retriever(
     search_type="mmr",
-    # 후보군 10개 중 4개를 MMR 방식으로 선택
     search_kwargs={
         "k": 5, 
-        "fetch_k": 30, 
+        "fetch_k": 20, 
         # 'filter': ai_fliter
     } 
 )
