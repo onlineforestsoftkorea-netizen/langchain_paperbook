@@ -1,7 +1,7 @@
-from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
 from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -46,7 +46,7 @@ def search_wine(query: str, source_type: str, k: int = 3):
         search_kwargs={
             "k": k,                  # 최종 4개
             "fetch_k": 15,           # 후보 15개
-            "lambda_mult": 0.7,      # 유사도 70% + 다양성 30%
+            "lambda_mult": 0.6,      # 유사도 60% + 다양성 40%
             "filter": filter_dict    # source_type 필터
         }
     )

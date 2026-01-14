@@ -20,12 +20,16 @@ if "agent" not in st.session_state:
 agent = st.session_state.agent
 loop = st.session_state.event_loop
 
-# 2) 사용자 입력
+# 2. 사용자 입력 받기
 THREAD_ID = "Chapter11"
 prompt = st.chat_input("와인에 대해 물어보세요...")
-# 입력 처리
 if prompt and agent:
+    # 사용자 메시지 저장
     st.session_state.messages.append({"role": "user", "content": prompt})
+
+    # (임시) 에이전트 답변 자리
+    # 아직 에이전트가 없으므로 고정된 텍스트만 보여줍니다.
+    # response = "아직 에이전트가 연결되지 않았습니다."
 
     with st.spinner("🤔 답변 생성 중..."):
         # 동일한 이벤트 루프 사용
@@ -34,7 +38,7 @@ if prompt and agent:
             {"role": "assistant", "content": response}
         )
 
-# 3) 메시지 출력
+# 3. 이전 대화 내용 화면에 그리기
 for message in st.session_state.messages:
     speaker = "user" if message["role"] == "user" else "assistant"
     with st.chat_message(speaker):

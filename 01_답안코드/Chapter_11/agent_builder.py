@@ -1,15 +1,13 @@
 from langchain_openai import ChatOpenAI
 from langchain.agents import create_agent
 from config import MODEL_NAME, TEMPERATURE, SYSTEM_PROMPT, DB_PATH, MCP_SERVERS
+from langchain_mcp_adapters.client import MultiServerMCPClient
 from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 import aiosqlite
-from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain_community.tools import YouTubeSearchTool
 
 
 async def create_wine_agent():
-    """와인 추천 에이전트 생성"""
-
     conn = await aiosqlite.connect(DB_PATH)
     checkpointer = AsyncSqliteSaver(conn)
 
@@ -30,14 +28,13 @@ async def create_wine_agent():
     agent = create_agent(
         model=model,
         tools=all_tools,
-        checkpointer=checkpointer,
+        checkpointer=checkpointer,  # 체크포인터 추가
         system_prompt=SYSTEM_PROMPT
     )
     
     return agent
 
 async def run_agent(agent, query, thread_id):
-    """에이전트 실행 (비동기)"""
     config = {"configurable": {"thread_id": thread_id}}
     
     full_response = ""
